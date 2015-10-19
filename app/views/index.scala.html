@@ -17,6 +17,22 @@
 
         <div flex>
             <p>Player</p>
+            <audio controls>
+                <source src="/assets/audio/test0.mp3" type="audio/mpeg">
+            </audio>
+
+            @*<video controls autoplay>*@
+                @*<source src='@routes.Assets.versioned("audio/test0.mp3")' type="audio/mpeg">*@
+            @*</video>*@
+
+            @*<audio controls>*@
+                @*<source src="http://localhost:9000/assets/audio/test1.mp3" type="audio/mpeg">*@
+            @*</audio>*@
+
+            @*<audio controls>*@
+                @*<source src="/assets/audio/test2.mp3" type="audio/mpeg">*@
+            @*</audio>*@
+
             <ul>
                 <li ng-repeat="element in variant track by $index">{{element}}</li>
             </ul>
