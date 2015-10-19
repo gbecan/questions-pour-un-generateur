@@ -16,18 +16,20 @@
         </div>
 
         <div flex>
+            <md-button class="md-raised md-primary" ng-click="generate()">Générer</md-button>
+        </div>
+
+        <div flex>
             <md-progress-linear md-mode="determinate" value="{{progress}}" ng-click="jump($event)"></md-progress-linear>
             <audio id="player">
-                <source src="/assets/audio/test0.mp3" type="audio/mpeg">
+                <source src="" type="audio/mpeg">
             </audio>
 
             <md-button ng-click="togglePause()"><i class="fa" ng-class="{'fa-play' : !play, 'fa-pause': play}"></i></md-button>
             <md-button ng-click="stop()"><i class="fa fa-stop"></i></md-button>
         </div>
 
-        <div flex>
-            <md-button class="md-raised md-primary" ng-click="generate()">Générer</md-button>
-        </div>
+
 
     </div>
 

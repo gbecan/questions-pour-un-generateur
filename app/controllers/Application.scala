@@ -17,26 +17,26 @@ class Application extends Controller {
   val path = "/assets/audio/"
 
   val question = RandomPattern(
-    (path + "medicament.mp3", 2)
+    (path + "medicament.mp3", 2.01)
   )
 
   val buzzer = RandomPattern(
-    (path + "buzzer.mp3", 1),
-    (path + "buzzer2.mp3", 1),
-    (path + "buzzer3.mp3", 1)
+    (path + "buzzer.mp3", 1.38),
+    (path + "buzzer2.mp3", 0.81),
+    (path + "buzzer3.mp3", 0.86)
   )
 
   val answer = RandomPattern(
-    (path + "macedoine.mp3", 1),
-    (path + "laguadeloupe.mp3", 1)
+    (path + "macedoine.mp3", 0.84),
+    (path + "laguadeloupe.mp3", 0.5)
   )
 
   val no = RandomPattern(
-    (path + "non.mp3", 1),
-    (path + "nonbuzz.mp3", 1)
+    (path + "non.mp3", 0.64),
+    (path + "nonbuzz.mp3", 0.89)
   )
 
-  val pattern = Sequence(question, buzzer, answer, no)
+  val pattern = Sequence(question, Repeat(buzzer, 1, 5), answer, no)
 
   def index = Action {
     Ok(views.html.index())

@@ -24,12 +24,11 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     });
 
     player.addEventListener("timeupdate", function(e) {
-        console.log(player.currentTime);
         var previousTracks = 0;
         for (var i = 0; i < $scope.indexVariant; i++) {
             previousTracks += $scope.variant[i].duration;
         }
-        $scope.progress = ((previousTracks + player.currentTime) / $scope.totalDuration) * 100;
+        $scope.progress = (previousTracks + player.currentTime) * 100 / $scope.totalDuration ;
         $scope.$apply();
     });
 
@@ -46,8 +45,9 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
 
     $scope.stop = function() {
         player.pause();
-        player.currentTime = 0;
-        player.progress = 0;
+        playerSource.src = $scope.variant[$scope.indexVariant].src;
+        player.load();
+        $scope.progress = 0;
         $scope.play = false;
         $scope.indexVariant = 0;
     };
@@ -73,7 +73,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
 
 
     $scope.jump = function(e) {
-        player.currentTime = e.layerX;
+        //player.currentTime = e.layerX;
     }
 
 });
