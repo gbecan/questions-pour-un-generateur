@@ -1,13 +1,32 @@
-@(variant: List[String])
+@()
 
-@main {
+@header = {
 
-    <ul>
-    @for(element <- variant) {
-        <li>@element</li>
-    }
-    </ul>
+}
 
+@footer = {
+    <script type="text/javascript" src='@routes.Assets.versioned("javascripts/GeneratorCtrl.js")'></script>
+}
+
+@main(header, footer) {
+
+    <div layout="column" layout-align="center center" ng-controller="GeneratorCtrl">
+        <div flex>
+            <h1>Questions pour un Générateur</h1>
+        </div>
+
+        <div flex>
+            <p>Player</p>
+            <ul>
+                <li ng-repeat="element in variant track by $index">{{element}}</li>
+            </ul>
+        </div>
+
+        <div flex>
+            <md-button class="md-raised md-primary" ng-click="generate()">Générer</md-button>
+        </div>
+
+    </div>
 
 
 }

@@ -10,7 +10,12 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
-  specs2 % Test
+  specs2 % Test,
+  "org.webjars" %% "webjars-play" % "2.4.0-1",
+  "org.webjars.bower" % "angular" % "1.4.7",
+  "org.webjars.bower" % "angular-animate" % "1.4.7",
+  "org.webjars.bower" % "angular-aria" % "1.4.7",
+  "org.webjars.bower" % "angular-material" % "0.11.4"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
