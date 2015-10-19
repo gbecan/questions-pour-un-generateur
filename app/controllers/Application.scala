@@ -15,7 +15,7 @@ class Application extends Controller {
 //  ), 2, 2)
 
   val path = "/assets/audio/"
-  val pattern = Question(path + "test0.mp3", path + "test1.mp3", path + "test2.mp3")
+  val pattern = Repeat(Question(path + "test0.mp3", path + "test1.mp3", path + "test2.mp3"), 3, 3)
 
   def index = Action {
     Ok(views.html.index())
