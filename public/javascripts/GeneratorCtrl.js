@@ -14,8 +14,13 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         playerSource.src = $scope.variant[$scope.indexVariant].src;
         player.load();
         player.play();
-        $scope.play = true;
     };
+
+
+    player.addEventListener("play", function(e) {
+        $scope.play = true;
+        $scope.$apply();
+    });
 
     player.addEventListener("ended", function(e) {
         if ($scope.indexVariant < $scope.variant.length - 1) {
@@ -102,7 +107,6 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
                 player.addEventListener("canplay", setTime);
                 break;
             } else {
-                console.log("reduce time");
                 newCurrentTime = newCurrentTime - currentDuration;
             }
         }

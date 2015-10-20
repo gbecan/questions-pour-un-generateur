@@ -1,0 +1,7 @@
+md-progress-linear .md-container {
+    height: 10px;
+}
+
+md-progress-linear .md-container .md-bar {
+    height: 10px;
+}

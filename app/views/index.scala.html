@@ -19,7 +19,7 @@
             <md-button class="md-raised md-primary" ng-click="generate()">Générer</md-button>
         </div>
 
-        <div flex>
+        <div flex ng-show="variant.length > 0">
             <md-progress-linear md-mode="determinate" value="{{progress}}" ng-click="jump($event)"></md-progress-linear>
             <audio id="player">
                 <source src="" type="audio/mpeg">
