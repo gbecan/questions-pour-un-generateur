@@ -21,12 +21,15 @@
 
         <div flex ng-show="variant.length > 0">
             <md-progress-linear md-mode="determinate" value="{{progress}}" ng-click="jump($event)"></md-progress-linear>
-            <audio id="player">
-                <source src="" type="audio/mpeg">
-            </audio>
-
             <md-button aria-label=="play/pause" ng-click="togglePause()"><i class="fa" ng-class="{'fa-play' : !play, 'fa-pause': play}"></i></md-button>
             <md-button aria-label=="stop" ng-click="stop()"><i class="fa fa-stop"></i></md-button>
+
+            <div ng-repeat="elem in variant" ng-bind-html="preparePlayer($index)">
+                <audio id="player{{$index}}" controls>
+                    <source ng-src="{{elem.src}}" type="audio/mpeg">
+                </audio>
+            </div>
+
         </div>
 
 
