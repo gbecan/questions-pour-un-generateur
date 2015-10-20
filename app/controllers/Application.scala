@@ -12,27 +12,35 @@ class Application extends Controller {
   val path = "/audio/"
   val audioPath = "/var/www/qpug/audio/"
 
+  val intro = RandomPattern(
+    ("intro.mp3", 8.75)
+  )
+
   val question = RandomPattern(
-    (path + "medicament.mp3", 2.01)
+    ("medicament.mp3", 2.01),
+    ("question3.mp3", 4.0),
+    ("questionan177.mp3", 3.0)
   )
 
   val buzzer = RandomPattern(
-    (path + "buzzer.mp3", 1.38),
-    (path + "buzzer2.mp3", 0.81),
-    (path + "buzzer3.mp3", 0.86)
+    ("buzzer.mp3", 1.38),
+    ("buzzer2.mp3", 0.81),
+    ("buzzer3.mp3", 0.86)
   )
 
   val answer = RandomPattern(
-    (path + "macedoine.mp3", 0.84),
-    (path + "laguadeloupe.mp3", 0.5)
+    ("macedoine.mp3", 0.84),
+    ("laguadeloupe.mp3", 0.5),
+    ("allomamanbobo.mp3", 1.02)
   )
 
-  val no = RandomPattern(
-    (path + "non.mp3", 0.64),
-    (path + "nonbuzz.mp3", 0.89)
+  val confirm = RandomPattern(
+    ("non.mp3", 0.64),
+    ("nonbuzz.mp3", 0.89),
+    ("voila.mp3", 0.91)
   )
 
-  val pattern = Sequence(question, Repeat(buzzer, 1, 5), answer, no)
+  val pattern = Sequence(intro, question, Repeat(buzzer, 1, 5), answer, confirm)
 
   def index = Action {
     Ok(views.html.index())
@@ -41,7 +49,7 @@ class Application extends Controller {
   def generate = Action {
     val variant = pattern.select()
     val variantJson = JsArray(variant.map(e => JsObject(Seq(
-      "src" -> JsString(e._1),
+      "src" -> JsString(path + e._1),
       "duration" -> JsNumber(e._2)
     ))))
     Ok(variantJson)
