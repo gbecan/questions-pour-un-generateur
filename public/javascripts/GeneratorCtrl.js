@@ -8,6 +8,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.indexVariant = 0;
     $scope.progress = 0;
     $scope.totalDuration = 0;
+    $scope.newCurrentTime = 0;
 
     var playNextTrack = function() {
         playerSource.src = $scope.variant[$scope.indexVariant].src;
@@ -20,6 +21,10 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         if ($scope.indexVariant < $scope.variant.length - 1) {
             $scope.indexVariant++;
             playNextTrack();
+        } else {
+            $scope.progress = 100;
+            $scope.play = false;
+            $scope.$apply();
         }
     });
 
@@ -72,8 +77,36 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     };
 
 
+
+    function setTime() {
+        player.currentTime = $scope.newCurrentTime;
+        if ($scope.play) {
+            player.play();
+        }
+        player.removeEventListener("canplay", setTime);
+    }
+
     $scope.jump = function(e) {
-        //player.currentTime = e.layerX;
+        var selectedProgress = e.layerX / e.target.offsetWidth;
+
+        var newCurrentTime = selectedProgress * $scope.totalDuration;
+
+        for (var i = 0; i < $scope.variant.length; i++) {
+            var currentDuration = $scope.variant[i].duration;
+
+            if (newCurrentTime < currentDuration) {
+                $scope.indexVariant = i;
+                playerSource.src = $scope.variant[i].src;
+                player.load();
+                $scope.newCurrentTime = newCurrentTime;
+                player.addEventListener("canplay", setTime);
+                break;
+            } else {
+                console.log("reduce time");
+                newCurrentTime = newCurrentTime - currentDuration;
+            }
+        }
+
     }
 
 });

@@ -1,5 +1,7 @@
 package controllers
 
+import java.io.File
+
 import models._
 import play.api.libs.json.{JsNumber, JsObject, JsString, JsArray}
 import play.api.mvc._
@@ -7,14 +9,8 @@ import play.api.mvc._
 
 class Application extends Controller {
 
-//  val pattern = Repeat(
-//    Sequence(
-//      Question("Q1", "Q2"),
-//      Repeat(Buzzer("B1", "B2"), 2, 4),
-//      Answer("A1", "A2")
-//  ), 2, 2)
-
-  val path = "/assets/audio/"
+  val path = "/audio/"
+  val audioPath = "/var/www/qpug/audio/"
 
   val question = RandomPattern(
     (path + "medicament.mp3", 2.01)
@@ -51,8 +47,16 @@ class Application extends Controller {
     Ok(variantJson)
   }
 
-  def test = Action {
-    Ok(views.html.test())
+  def getAudioFile(filePath : String) = Action {
+    val file = new File(audioPath + filePath)
+    // TODO : check security
+    if (file.exists()) {
+      Ok.sendFile(file)
+    } else {
+      NotFound(file.getName)
+    }
+
   }
+
 }
 

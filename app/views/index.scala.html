@@ -25,8 +25,8 @@
                 <source src="" type="audio/mpeg">
             </audio>
 
-            <md-button ng-click="togglePause()"><i class="fa" ng-class="{'fa-play' : !play, 'fa-pause': play}"></i></md-button>
-            <md-button ng-click="stop()"><i class="fa fa-stop"></i></md-button>
+            <md-button aria-label=="play/pause" ng-click="togglePause()"><i class="fa" ng-class="{'fa-play' : !play, 'fa-pause': play}"></i></md-button>
+            <md-button aria-label=="stop" ng-click="stop()"><i class="fa fa-stop"></i></md-button>
         </div>
 
 
