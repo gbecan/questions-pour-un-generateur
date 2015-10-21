@@ -4,6 +4,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     var playerSource = player.getElementsByTagName("source")[0];
 
     $scope.variant = "";
+    $scope.tweetUrl = "";
     $scope.updownSet = false;
     $scope.isUp = false;
     $scope.isDown = false;
@@ -11,20 +12,24 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.generate = function() {
         $http.get("/generate")
             .then(function(response) {
-                $scope.variant = response.data;
-
-                $scope.updownSet = false;
-                $scope.isUp = false;
-                $scope.isDown = false;
-
-                playerSource.src = "audio/" + response.data;
-                player.load();
-                player.play();
+                $scope.playVariant(response.data);
             }, function(error){
                 console.error(error);
             })
     };
 
+
+    $scope.playVariant = function(newVariant) {
+        $scope.variant = newVariant;
+        $scope.tweetUrl = encodeURIComponent("http://genquestions.variability.io/play/" + $scope.variant);
+        $scope.updownSet = false;
+        $scope.isUp = false;
+        $scope.isDown = false;
+
+        playerSource.src = "/audio/" + $scope.variant;
+        player.load();
+        player.play();
+    };
 
     $scope.up = function() {
         $scope.updownSet = true;
@@ -37,6 +42,11 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         $scope.isDown = true;
         $http.get("/down/" + $scope.variant)
     };
+
+
+    if (typeof variant !== "undefined") {
+        $scope.playVariant(variant);
+    }
 
 
 });

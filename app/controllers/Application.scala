@@ -48,8 +48,12 @@ class Application extends Controller {
 
   val pattern = Sequence(intro, question, Repeat(buzzer, 2, 5 ), answer, confirm)
 
-  def index = Action {
-    Ok(views.html.index())
+  def index() = Action {
+    Ok(views.html.index(None))
+  }
+
+  def play(variant : String) = Action {
+    Ok(views.html.index(Some(variant)))
   }
 
   def generate = Action {
