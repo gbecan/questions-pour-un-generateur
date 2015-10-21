@@ -12,14 +12,20 @@ abstract class Pattern[T] {
 case class Repeat[T](pattern : Pattern[T], min : Int, max : Int) extends Pattern[T] {
   override def select(history: List[T]): List[T] = {
     val n = Random.nextInt(max - min + 1) + min
-    (0 until n).toList.flatMap(i => pattern.select(history))
+    (0 until n).toList.foldLeft((Nil : List[T])){ (acc, _)  =>
+      pattern.select(history ::: acc)
+    }
   }
 }
+
 case class Sequence[T](patterns : Pattern[T]*) extends Pattern[T] {
   override def select(history: List[T]): List[T] = {
-    patterns.toList.flatMap(_.select(history))
+    patterns.toList.foldLeft(Nil : List[T]){ (acc, p) =>
+      p.select(history ::: acc)
+    }
   }
 }
+
 case class Or[T](pattern1: Pattern[T], pattern2: Pattern[T]) extends Pattern[T] {
   override def select(history: List[T]): List[T] = {
     if (Random.nextBoolean()) {
