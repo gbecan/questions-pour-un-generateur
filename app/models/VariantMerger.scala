@@ -8,7 +8,7 @@ import scala.sys.process._
  */
 class VariantMerger {
 
-  def merge(variant: List[String]) : Option[String] = {
+  def merge(variant: List[String]) : Option[File] = {
     // Create input file
     val listFile = File.createTempFile("qpug_", ".txt")
     val writer = new FileWriter(listFile)
@@ -29,7 +29,7 @@ class VariantMerger {
 
 
     if (result == 0) {
-      Some(outputFile.getName)
+      Some(outputFile)
     } else {
       None
     }

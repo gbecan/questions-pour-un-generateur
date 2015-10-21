@@ -3,6 +3,7 @@ package controllers
 import java.io.File
 
 import models._
+import play.api.libs.Crypto
 import play.api.libs.json.{JsNumber, JsObject, JsString, JsArray}
 import play.api.mvc._
 
@@ -15,31 +16,31 @@ class Application extends Controller {
 
 
   val intro = RandomPattern(
-    ("intro.mp3", 8.75)
+    "intro.mp3"
   )
 
   val question = RandomPattern(
-    ("medicament.mp3", 2.01),
-    ("question3.mp3", 4.0),
-    ("questionan177.mp3", 3.0)
+    "medicament.mp3",
+    "question3.mp3",
+    "questionan177.mp3"
   )
 
   val buzzer = RandomPattern(
-    ("buzzer.mp3", 1.38),
-    ("buzzer2.mp3", 0.81),
-    ("buzzer3.mp3", 0.86)
+    "buzzer.mp3",
+    "buzzer2.mp3",
+    "buzzer3.mp3"
   )
 
   val answer = RandomPattern(
-    ("macedoine.mp3", 0.84),
-    ("laguadeloupe.mp3", 0.5),
-    ("allomamanbobo.mp3", 1.02)
+    "macedoine.mp3",
+    "laguadeloupe.mp3",
+    "allomamanbobo.mp3"
   )
 
   val confirm = RandomPattern(
-    ("non.mp3", 0.64),
-    ("nonbuzz.mp3", 0.89),
-    ("voila.mp3", 0.91)
+    "non.mp3",
+    "nonbuzz.mp3",
+    "voila.mp3"
   )
 
   val pattern = Sequence(intro, question, Repeat(buzzer, 2, 5 ), answer, confirm)
@@ -50,22 +51,20 @@ class Application extends Controller {
 
   def generate = Action {
     val variant = pattern.select()
-    val mergedFile = merger.merge(variant.map(elem => audioPath + elem._1))
-    if (mergedFile.isDefined) {
-      Ok(path + mergedFile.get)
-    } else {
-      NotFound("merging failed")
-    }
-
+    val encryptedVariant = Crypto.encryptAES(variant.mkString(","))
+    Ok(path + encryptedVariant)
   }
 
-  def getAudioFile(filePath : String) = Action {
-    val file = new File("/tmp/" + filePath)
-    // TODO : check security
-    if (file.exists()) {
-      Ok.sendFile(file)
+  def getAudioFile(encryptedVariant : String) = Action {
+    val decryptedVariant = Crypto.decryptAES(encryptedVariant)
+    val variant = decryptedVariant.split(",").toList
+
+    val file = merger.merge(variant.map(elem => audioPath + elem))
+
+    if (file.isDefined) {
+      Ok.sendFile(file.get)
     } else {
-      NotFound(file.getName)
+      NotFound("Variant not found")
     }
 
   }
