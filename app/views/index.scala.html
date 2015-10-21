@@ -20,9 +20,15 @@
         </div>
 
         <div flex ng-show="variant">
-            <audio id="player" controls>
-                <source src="" type="audio/mpeg">
-            </audio>
+            <div>
+                <audio id="player" controls>
+                    <source src="" type="audio/mpeg">
+                </audio>
+            </div>
+            <div layout="row" layout-align="center start">
+                <md-button ng-class="{'md-raised' : isUp}" ng-click="up()" aria-label="Oh oui oui oui ! (j'aime)" ng-disabled="updownSet"><i class="fa fa-thumbs-up"></i></md-button>
+                <md-button ng-class="{'md-raised' : isDown}" ng-click="down()" aria-label="Non (je n'aime pas)" ng-disabled="updownSet"><i class="fa fa-thumbs-down"></i></md-button>
+            </div>
         </div>
 
     </div>

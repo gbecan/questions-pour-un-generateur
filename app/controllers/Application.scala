@@ -1,6 +1,7 @@
 package controllers
 
 import models._
+import play.api.Logger
 import play.api.libs.Crypto
 import play.api.libs.iteratee.{Enumeratee, Enumerator}
 import play.api.mvc._
@@ -54,7 +55,7 @@ class Application extends Controller {
   def generate = Action {
     val variant = pattern.select()
     val encryptedVariant = Crypto.encryptAES(variant.mkString(","))
-    Ok(path + encryptedVariant)
+    Ok(encryptedVariant)
   }
 
   def getAudioFile(encryptedVariant : String) = Action.async {
@@ -72,6 +73,23 @@ class Application extends Controller {
         NotFound("Variant not found")
       }
     }
+  }
+
+  def up(encryptedVariant : String) = Action {
+    val decryptedVariant = Crypto.decryptAES(encryptedVariant)
+    val variant = decryptedVariant.split(",").toList
+    // TODO : save
+    Logger.info("+1 : " + variant)
+    Ok("")
+  }
+
+  def down(encryptedVariant : String) = Action {
+    val decryptedVariant = Crypto.decryptAES(encryptedVariant)
+    println(decryptedVariant)
+    val variant = decryptedVariant.split(",").toList
+    // TODO : save
+    Logger.info("-1 : " + variant)
+    Ok("")
   }
 
 }
