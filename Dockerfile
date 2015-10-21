@@ -1,5 +1,6 @@
 FROM java:latest
 
+RUN apt-get update && apt-get -y install ffmpeg
 RUN git clone https://github.com/gbecan/questions-pour-un-generateur.git
 WORKDIR questions-pour-un-generateur
 RUN ./activator stage
