@@ -11,6 +11,8 @@ class Application extends Controller {
 
   val path = "/audio/"
   val audioPath = "/var/www/qpug/audio/"
+  val merger = new VariantMerger
+
 
   val intro = RandomPattern(
     ("intro.mp3", 8.75)
@@ -40,7 +42,7 @@ class Application extends Controller {
     ("voila.mp3", 0.91)
   )
 
-  val pattern = Sequence(intro, question, Repeat(buzzer, 1, 5), answer, confirm)
+  val pattern = Sequence(intro, question, Repeat(buzzer, 2, 5 ), answer, confirm)
 
   def index = Action {
     Ok(views.html.index())
@@ -48,15 +50,17 @@ class Application extends Controller {
 
   def generate = Action {
     val variant = pattern.select()
-    val variantJson = JsArray(variant.map(e => JsObject(Seq(
-      "src" -> JsString(path + e._1),
-      "duration" -> JsNumber(e._2)
-    ))))
-    Ok(variantJson)
+    val mergedFile = merger.merge(variant.map(elem => audioPath + elem._1))
+    if (mergedFile.isDefined) {
+      Ok(path + mergedFile.get)
+    } else {
+      NotFound("merging failed")
+    }
+
   }
 
   def getAudioFile(filePath : String) = Action {
-    val file = new File(audioPath + filePath)
+    val file = new File("/tmp/" + filePath)
     // TODO : check security
     if (file.exists()) {
       Ok.sendFile(file)

@@ -66,16 +66,20 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         $http
             .get("/generate")
             .then(function(response) {
-                $scope.variant = response.data;
-                $scope.indexVariant = 0;
+                //$scope.variant = response.data;
+                //$scope.indexVariant = 0;
+                //
+                //// Compute duration of sequence
+                //$scope.totalDuration = 0;
+                //$scope.variant.forEach(function(element) {
+                //   $scope.totalDuration += element.duration;
+                //});
+                //
+                //playNextTrack();
 
-                // Compute duration of sequence
-                $scope.totalDuration = 0;
-                $scope.variant.forEach(function(element) {
-                   $scope.totalDuration += element.duration;
-                });
-
-                playNextTrack();
+                playerSource.src = response.data;
+                player.load();
+                player.play();
             }, function(error){
                 console.error(error);
             })
