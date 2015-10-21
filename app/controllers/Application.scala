@@ -5,6 +5,10 @@ import play.api.libs.Crypto
 import play.api.libs.iteratee.{Enumeratee, Enumerator}
 import play.api.mvc._
 
+import play.api.libs.concurrent.Execution.Implicits._
+
+import scala.concurrent.Future
+
 
 class Application extends Controller {
 
@@ -53,18 +57,21 @@ class Application extends Controller {
     Ok(path + encryptedVariant)
   }
 
-  def getAudioFile(encryptedVariant : String) = Action {
+  def getAudioFile(encryptedVariant : String) = Action.async {
     val decryptedVariant = Crypto.decryptAES(encryptedVariant)
     val variant = decryptedVariant.split(",").toList
 
-    val file = merger.merge(variant.map(elem => audioPath + elem))
-
-    if (file.isDefined) {
-      Ok.sendFile(file.get, onClose = () => file.get.delete())
-    } else {
-      NotFound("Variant not found")
+    val futureFile = Future {
+      merger.merge(variant.map(elem => audioPath + elem))
     }
 
+    futureFile.map { file =>
+      if (file.isDefined) {
+        Ok.sendFile(file.get, onClose = () => file.get.delete())
+      } else {
+        NotFound("Variant not found")
+      }
+    }
   }
 
 }
