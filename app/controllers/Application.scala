@@ -1,10 +1,8 @@
 package controllers
 
-import java.io.File
-
 import models._
 import play.api.libs.Crypto
-import play.api.libs.json.{JsNumber, JsObject, JsString, JsArray}
+import play.api.libs.iteratee.{Enumeratee, Enumerator}
 import play.api.mvc._
 
 
@@ -62,7 +60,7 @@ class Application extends Controller {
     val file = merger.merge(variant.map(elem => audioPath + elem))
 
     if (file.isDefined) {
-      Ok.sendFile(file.get)
+      Ok.sendFile(file.get, onClose = () => file.get.delete())
     } else {
       NotFound("Variant not found")
     }
