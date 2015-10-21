@@ -1,5 +1,7 @@
 package controllers
 
+import java.io.File
+
 import models._
 import play.api.Logger
 import play.api.libs.Crypto
@@ -17,36 +19,30 @@ class Application extends Controller {
   val audioPath = "/var/www/qpug/audio/"
   val merger = new VariantMerger
 
+  def loadDir(dirPath : String) : List[String] = {
+    val dir = new File(audioPath + dirPath)
+    val files = dir.listFiles().toList.filter(_.getName.endsWith(".mp3"))
+    val paths = files.map(dirPath + "/" + _.getName)
+    paths
+  }
 
-  val intro = RandomPattern(
-    "intro.mp3"
+  val intro = RandomPattern(loadDir("intro"): _*)
+  val question = RandomPattern(loadDir("question"): _*)
+  val buzzer = RandomPattern(loadDir("buzzer"): _*)
+  val answer = RandomPattern(loadDir("answer"): _*)
+  val yes = RandomPattern(loadDir("yes"): _*)
+  val no = RandomPattern(loadDir("no"): _*)
+
+  val pattern = Sequence(
+    intro,
+    Repeat(Sequence(
+      question,
+      buzzer,
+      Repeat(Sequence(answer, no), 0, 2),
+      answer,
+      yes
+    ), 1, 3)
   )
-
-  val question = RandomPattern(
-    "medicament.mp3",
-    "question3.mp3",
-    "questionan177.mp3"
-  )
-
-  val buzzer = RandomPattern(
-    "buzzer.mp3",
-    "buzzer2.mp3",
-    "buzzer3.mp3"
-  )
-
-  val answer = RandomPattern(
-    "macedoine.mp3",
-    "laguadeloupe.mp3",
-    "allomamanbobo.mp3"
-  )
-
-  val confirm = RandomPattern(
-    "non.mp3",
-    "nonbuzz.mp3",
-    "voila.mp3"
-  )
-
-  val pattern = Sequence(intro, question, Repeat(buzzer, 2, 5 ), answer, confirm)
 
   def index() = Action {
     Ok(views.html.index(None))

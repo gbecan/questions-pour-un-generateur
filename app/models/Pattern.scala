@@ -32,6 +32,10 @@ case class Or[T](pattern1: Pattern[T], pattern2: Pattern[T]) extends Pattern[T] 
 
 case class RandomPattern[T](variants : T*) extends Pattern[T] {
   override def select(history: List[T]): List[T] = {
-    List(Random.shuffle(variants).head)
+    if (variants.nonEmpty) {
+      List(Random.shuffle(variants).head)
+    } else {
+      Nil
+    }
   }
 }
