@@ -16,7 +16,9 @@ libraryDependencies ++= Seq(
   "org.webjars.bower" % "angular-animate" % "1.4.7",
   "org.webjars.bower" % "angular-aria" % "1.4.7",
   "org.webjars.bower" % "angular-material" % "0.11.4",
-  "org.webjars.bower" % "font-awsome" % "4.4.0"
+  "org.webjars.bower" % "font-awsome" % "4.4.0",
+//  "org.reactivemongo" %% "reactivemongo" % "0.11.7",
+  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.7.play24"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

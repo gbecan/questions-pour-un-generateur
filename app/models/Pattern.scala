@@ -13,7 +13,7 @@ case class Repeat[T](pattern : Pattern[T], min : Int, max : Int) extends Pattern
   override def select(history: List[T]): List[T] = {
     val n = Random.nextInt(max - min + 1) + min
     (0 until n).toList.foldLeft((Nil : List[T])){ (acc, _)  =>
-      pattern.select(history ::: acc)
+      acc ::: pattern.select(history ::: acc)
     }
   }
 }
@@ -21,7 +21,7 @@ case class Repeat[T](pattern : Pattern[T], min : Int, max : Int) extends Pattern
 case class Sequence[T](patterns : Pattern[T]*) extends Pattern[T] {
   override def select(history: List[T]): List[T] = {
     patterns.toList.foldLeft(Nil : List[T]){ (acc, p) =>
-      p.select(history ::: acc)
+      acc ::: p.select(history ::: acc)
     }
   }
 }
@@ -40,6 +40,17 @@ case class RandomPattern[T](variants : T*) extends Pattern[T] {
   override def select(history: List[T]): List[T] = {
     if (variants.nonEmpty) {
       List(Random.shuffle(variants).head)
+    } else {
+      Nil
+    }
+  }
+}
+
+case class UniqueRandomPattern[T](variants: T*) extends Pattern[T] {
+  override def select(history: List[T]): List[T] = {
+    val filteredVariant = variants.filter(s => !history.contains(s))
+    if (filteredVariant.nonEmpty) {
+      List(Random.shuffle(filteredVariant).head)
     } else {
       Nil
     }
