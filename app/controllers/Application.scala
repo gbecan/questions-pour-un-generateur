@@ -1,7 +1,7 @@
 package controllers
 
 import java.io.File
-import javax.inject.Inject
+import javax.inject.{Singleton, Inject}
 
 import akka.actor.ActorSystem
 import models._
@@ -16,6 +16,7 @@ import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMo
 
 import scala.concurrent.Future
 
+@Singleton
 class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   extends Controller with MongoController with ReactiveMongoComponents {
 
