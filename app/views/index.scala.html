@@ -20,35 +20,33 @@
 
     <div layout="column" layout-align="center center" ng-controller="GeneratorCtrl">
         <div flex>
-            <h1>Questions pour un Générateur</h1>
+            <h1 class="md-display-2">Questions pour un Générateur</h1>
             <p class="counter">
                 Oh oui oui oui ! Déjà <strong>{{counter}}</strong> épisodes générés !
             </p>
         </div>
 
-        <div flex>
-            <md-button class="md-raised md-primary" ng-click="generate()">Générer un nouvel épisode</md-button>
-        </div>
 
-
-
-        <div flex ng-show="variant" layout="row">
-            <div layout="column" layout-align="center center">
-                <div>
-                    <audio id="player" controls>
-                        <source src="" type="audio/mpeg">
-                    </audio>
+        <div flex layout-gt-sm="row" >
+            <div layout="column" layout-align="start center" layout-padding>
+                <h3 class="md-headline">Votre épisode</h3>
+                <md-button class="md-raised md-primary" ng-click="generate()">Générer un nouvel épisode</md-button>
+                <div ng-show="variant" layout="column" layout-align="center center">
+                    <div>
+                        <audio id="player" controls>
+                            <source src="" type="audio/mpeg">
+                        </audio>
+                    </div>
+                    <div>
+                        <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' target="_blank" aria-label="partager sur twitter">
+                            <i class="fa fa-twitter"></i> Partager sur Twitter
+                        </md-button>
+                    </div>
                 </div>
-                <div>
-                    <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' target="_blank" aria-label="partager sur twitter">
-                        <i class="fa fa-twitter"></i> Partager sur Twitter
-                    </md-button>
-                </div>
-
             </div>
 
-            <div layout="column" layout-align="center center">
-                <h3 id="score-title">Aimez vous l'épisode?</h3>
+            <div layout="column" layout-align="center center" layout-padding>
+                <h3 class="md-headline">Aimez vous l'épisode?</h3>
                 <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
                     <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
                     <md-button
@@ -56,7 +54,7 @@
                     ng-mouseover="setOverScore(i)"
                     ng-class="{'score-normal' : i > overScore, 'score-highlight' : i <= overScore}"
                     aria-label="Oh oui oui oui ! (j'aime)"
-                    ng-disabled="scoreSet"
+                    ng-disabled="scoreSet || !variant"
                     ng-click="setScore(i)">
                         {{i}}
                     </md-button>
@@ -64,6 +62,21 @@
                 </div>
 
             </div>
+        </div>
+
+        <div flex layout-gt-sm="row">
+            @*<div flex>*@
+                @*<h3>Comment ça marche?</h3>*@
+                @*<p>La génération d'un épisode consiste</p>*@
+            @*</div>*@
+
+            <div flex>
+                <h3 class="md-headline text-center" >Nous contacter</h3>
+                <p>
+                    Pour toute question, vous pouvez nous contacter via <a href="mailto:contact@@variability.io">contact@@variability.io</a>
+                </p>
+            </div>
+
         </div>
 
     </div>
