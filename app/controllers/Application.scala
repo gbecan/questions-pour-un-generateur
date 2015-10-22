@@ -4,22 +4,17 @@ import java.io.File
 import javax.inject.Inject
 
 import akka.actor.ActorSystem
-import akka.util.Timeout
 import models._
 import play.api.Logger
 import play.api.libs.Crypto
-import play.api.libs.iteratee.{Enumeratee, Enumerator}
-import play.api.libs.json.{JsValue, Json, JsNumber, JsObject}
-import play.api.mvc._
-
 import play.api.libs.concurrent.Execution.Implicits._
-import play.modules.reactivemongo.json.collection.JSONCollection
-import play.modules.reactivemongo.{MongoController, ReactiveMongoComponents, ReactiveMongoApi}
+import play.api.libs.json.Json
+import play.api.mvc._
 import play.modules.reactivemongo.json._
+import play.modules.reactivemongo.json.collection.JSONCollection
+import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 
 import scala.concurrent.Future
-import akka.pattern.ask
-import scala.concurrent.duration._
 
 class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSystem: ActorSystem)
   extends Controller with MongoController with ReactiveMongoComponents {
@@ -28,10 +23,8 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
   val audioPath = "/var/www/qpug/audio/"
   val merger = new VariantMerger
 
-  val counterActor = actorSystem.actorOf(StatsActor.props)
-
-
-  implicit val timeout = Timeout(5.seconds)
+  val stats = new Stats(reactiveMongoApi)
+  val likes = new Likes(reactiveMongoApi)
 
   def loadDir(dirPath : String) : List[String] = {
     val dir = new File(audioPath + dirPath)
@@ -59,15 +52,13 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
   )
 
   def index() = Action.async {
-    val askCounter = counterActor ? StatsActor.GetCounter()
-    askCounter.mapTo[Int].map { counter =>
+    stats.getCounter().map { counter =>
       Ok(views.html.index(None, counter))
     }
   }
 
   def play(variant : String) = Action.async {
-    val askCounter = counterActor ? StatsActor.GetCounter()
-    askCounter.mapTo[Int].map { counter =>
+    stats.getCounter().map { counter =>
       Ok(views.html.index(Some(variant), counter))
     }
   }
@@ -75,8 +66,8 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
   def generate = Action {
     val variant = pattern.select()
     val encryptedVariant = Crypto.encryptAES(variant.mkString(","))
-
     Logger.info(variant.mkString(", "))
+    stats.increaseCounter()
 
     Ok(encryptedVariant)
   }
@@ -91,7 +82,6 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
 
     futureFile.map { file =>
       if (file.isDefined) {
-        counterActor ! StatsActor.IncreaseCounter()
         Ok.sendFile(file.get, onClose = () => file.get.delete())
       } else {
         NotFound("Variant not found")
@@ -104,30 +94,11 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
     val decryptedVariant = Crypto.decryptAES(encryptedVariant)
     val variant = decryptedVariant.split(",").toList
 
-    // Save to database
-    saveLike(variant, up)
+    likes.addLike(variant, up)
 
     Ok("")
   }
 
-  def saveLike(variant : List[String], up : Boolean) {
-
-    // TODO : not thread safe !
-
-    val likesColl = reactiveMongoApi.db.collection[JSONCollection]("likes")
-    val query = Json.obj("variant" -> variant)
-    likesColl.find(query).one[JsValue].map { previous =>
-      val oldCounter = previous.map(_.as[JsObject].value("counter").as[JsNumber].value.toInt).getOrElse(0)
-      val newCounter = oldCounter + (if (up) {1} else {-1})
-
-      val update = Json.obj(
-        "variant" -> variant,
-        "counter" -> newCounter
-      )
-
-      likesColl.update(query, update, upsert = true)
-    }
-  }
 
 }
 

@@ -5,3 +5,7 @@ md-progress-linear .md-container {
 md-progress-linear .md-container .md-bar {
     height: 10px;
 }
+
+.counter {
+    text-align: center;
+}
