@@ -15,7 +15,7 @@ class Stats(reactiveMongoApi : ReactiveMongoApi) {
 
   val statsColl = reactiveMongoApi.db.collection[JSONCollection]("statistics")
 
-  def increaseCounter() {
+  def increaseCounter() : Future[Any] = {
     val query = Json.obj()
     val update = Json.obj(
       "$inc" -> Json.obj("counter" -> 1)

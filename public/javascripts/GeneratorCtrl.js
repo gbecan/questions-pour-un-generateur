@@ -11,7 +11,8 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.generate = function() {
         $http.get("/generate")
             .then(function(response) {
-                $scope.playVariant(response.data);
+                $scope.counter = response.data.counter;
+                $scope.playVariant(response.data.variant);
             }, function(error){
                 console.error(error);
             })
@@ -31,10 +32,6 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         player.play();
     };
 
-    if (typeof variant !== "undefined") {
-        $scope.playVariant(variant);
-    }
-
     // Score
     $scope.scoreRange = function() {
         return [4, 3, 2, 1, 0];
@@ -49,7 +46,17 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.setScore = function(score) {
         $scope.scoreSet = true;
         $http.get("/score?variant=" + encodeURIComponent($scope.variant) + "&score=" + score)
+    };
+
+
+    // Init
+
+    if (typeof variant !== "undefined") {
+        $scope.playVariant(variant);
     }
 
+    if (typeof counter !== "undefined") {
+        $scope.counter = counter;
+    }
 
 });

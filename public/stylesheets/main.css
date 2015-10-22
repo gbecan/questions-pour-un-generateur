@@ -10,9 +10,15 @@ md-progress-linear .md-container .md-bar {
     text-align: center;
 }
 
+#score-title {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .score {
     font-size: large;
     font-weight: bold;
+    min-width: 60px;
 }
 
 .score-normal {

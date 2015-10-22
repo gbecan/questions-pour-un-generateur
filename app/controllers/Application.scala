@@ -63,13 +63,21 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
     }
   }
 
-  def generate = Action {
+  def generate = Action.async {
     val variant = pattern.select()
     val encryptedVariant = Crypto.encryptAES(variant.mkString(","))
     Logger.info(variant.mkString(", "))
-    stats.increaseCounter()
 
-    Ok(encryptedVariant)
+    stats.increaseCounter().flatMap { _ =>
+      stats.getCounter().map { counter =>
+        Ok(Json.obj(
+          "variant" -> encryptedVariant,
+          "counter" -> counter
+        ))
+      }
+    }
+
+
   }
 
   def getAudioFile(encryptedVariant : String) = Action.async {

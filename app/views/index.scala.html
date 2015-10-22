@@ -5,11 +5,14 @@
 }
 
 @footer = {
-    @if(variant.isDefined) {
-        <script>
+    <script>
+        var counter = @counter;
+        @if(variant.isDefined) {
             var variant = "@variant.get";
-        </script>
-    }
+        }
+    </script>
+
+
     <script type="text/javascript" src='@routes.Assets.versioned("javascripts/GeneratorCtrl.js")'></script>
 }
 
@@ -19,7 +22,7 @@
         <div flex>
             <h1>Questions pour un Générateur</h1>
             <p class="counter">
-                Oh oui oui oui ! Déjà <strong>@counter</strong> épisodes générés !
+                Oh oui oui oui ! Déjà <strong>{{counter}}</strong> épisodes générés !
             </p>
         </div>
 
@@ -29,21 +32,23 @@
 
 
 
-        <div flex ng-show="variant" layout="column">
-            <div layout="row" layout-align="center center">
+        <div flex ng-show="variant" layout="row">
+            <div layout="column" layout-align="center center">
                 <div>
                     <audio id="player" controls>
                         <source src="" type="audio/mpeg">
                     </audio>
                 </div>
                 <div>
-                    <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' aria-label="partager sur twitter">
+                    <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' target="_blank" aria-label="partager sur twitter">
                         <i class="fa fa-twitter"></i> Partager sur Twitter
                     </md-button>
                 </div>
+
             </div>
+
             <div layout="column" layout-align="center center">
-                <h3>Score de l'épisode</h3>
+                <h3 id="score-title">Aimez vous l'épisode?</h3>
                 <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
                     <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
                     <md-button
@@ -60,8 +65,6 @@
 
             </div>
         </div>
-
-
 
     </div>
 
