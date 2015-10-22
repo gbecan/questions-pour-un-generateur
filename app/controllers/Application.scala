@@ -19,6 +19,8 @@ import scala.concurrent.Future
 class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   extends Controller with MongoController with ReactiveMongoComponents {
 
+  Logger.info("test")
+
   val path = "/audio/"
   val audioPath = "/var/www/qpug/audio/"
   val merger = new VariantMerger
