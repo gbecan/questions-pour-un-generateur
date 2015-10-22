@@ -16,7 +16,7 @@ import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMo
 
 import scala.concurrent.Future
 
-class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSystem: ActorSystem)
+class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   extends Controller with MongoController with ReactiveMongoComponents {
 
   val path = "/audio/"
