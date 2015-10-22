@@ -1,4 +1,3 @@
-This is your new Play application
-=================================
+# Questions pour un Générateur
 
-This file will be packaged with your application, when using `activator dist`.
+Générateur aléatoire d'épisodes de _Questions pour un champion_
