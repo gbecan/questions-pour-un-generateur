@@ -5,10 +5,9 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
 
     $scope.variant = "";
     $scope.tweetUrl = "";
-    $scope.updownSet = false;
-    $scope.isUp = false;
-    $scope.isDown = false;
+    $scope.scoreSet = false;
 
+    // Generation
     $scope.generate = function() {
         $http.get("/generate")
             .then(function(response) {
@@ -19,6 +18,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     };
 
 
+    // Audio
     $scope.playVariant = function(newVariant) {
         $scope.variant = newVariant;
         $scope.tweetUrl = encodeURIComponent("http://genquestions.variability.io/play/" + $scope.variant);
@@ -31,21 +31,24 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         player.play();
     };
 
-    $scope.up = function() {
-        $scope.updownSet = true;
-        $scope.isUp = true;
-        $http.get("/up/" + $scope.variant)
-    };
-
-    $scope.down = function() {
-        $scope.updownSet = true;
-        $scope.isDown = true;
-        $http.get("/down/" + $scope.variant)
-    };
-
-
     if (typeof variant !== "undefined") {
         $scope.playVariant(variant);
+    }
+
+    // Score
+    $scope.scoreRange = function() {
+        return [4, 3, 2, 1, 0];
+    };
+
+    $scope.overScore = -1;
+
+    $scope.setOverScore = function(score) {
+        $scope.overScore = score;
+    };
+
+    $scope.setScore = function(score) {
+        $scope.scoreSet = true;
+        $http.get("/score?variant=" + encodeURIComponent($scope.variant) + "&score=" + score)
     }
 
 

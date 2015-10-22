@@ -9,3 +9,20 @@ md-progress-linear .md-container .md-bar {
 .counter {
     text-align: center;
 }
+
+.score {
+    font-size: large;
+    font-weight: bold;
+}
+
+.score-normal {
+    background-color: #2eb5e4 !important;
+}
+
+.score-highlight {
+    background-color: #ffb23e !important;
+}
+
+.score-caret {
+    color: orange;
+}

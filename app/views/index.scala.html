@@ -18,28 +18,50 @@
     <div layout="column" layout-align="center center" ng-controller="GeneratorCtrl">
         <div flex>
             <h1>Questions pour un Générateur</h1>
+            <p class="counter">
+                Oh oui oui oui ! Déjà <strong>@counter</strong> épisodes générés !
+            </p>
         </div>
 
-        <div flex layout-align="center center">
-            <p class="counter">
-                Oh oui oui oui !<br/>
-                Déjà @counter épisodes générés!
-            </p>
+        <div flex>
             <md-button class="md-raised md-primary" ng-click="generate()">Générer un nouvel épisode</md-button>
         </div>
 
-        <div flex ng-show="variant">
-            <div>
-                <audio id="player" controls>
-                    <source src="" type="audio/mpeg">
-                </audio>
+
+
+        <div flex ng-show="variant" layout="column">
+            <div layout="row" layout-align="center center">
+                <div>
+                    <audio id="player" controls>
+                        <source src="" type="audio/mpeg">
+                    </audio>
+                </div>
+                <div>
+                    <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' aria-label="partager sur twitter">
+                        <i class="fa fa-twitter"></i> Partager sur Twitter
+                    </md-button>
+                </div>
             </div>
-            <div layout="row" layout-align="center start">
-                <md-button ng-class="{'md-raised' : isUp}" ng-click="up()" aria-label="Oh oui oui oui ! (j'aime)" ng-disabled="updownSet"><i class="fa fa-thumbs-up"></i></md-button>
-                <md-button ng-class="{'md-raised' : isDown}" ng-click="down()" aria-label="Non (je n'aime pas)" ng-disabled="updownSet"><i class="fa fa-thumbs-down"></i></md-button>
-                <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' aria-label="partager sur twitter"><i class="fa fa-twitter"></i></md-button>
+            <div layout="column" layout-align="center center">
+                <h3>Score de l'épisode</h3>
+                <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
+                    <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
+                    <md-button
+                    class="md-raised score"
+                    ng-mouseover="setOverScore(i)"
+                    ng-class="{'score-normal' : i > overScore, 'score-highlight' : i <= overScore}"
+                    aria-label="Oh oui oui oui ! (j'aime)"
+                    ng-disabled="scoreSet"
+                    ng-click="setScore(i)">
+                        {{i}}
+                    </md-button>
+                    <i class="fa fa-caret-right fa-3x score-caret" ng-show="overScore == i"></i>
+                </div>
+
             </div>
         </div>
+
+
 
     </div>
 

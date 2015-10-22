@@ -24,7 +24,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
   val merger = new VariantMerger
 
   val stats = new Stats(reactiveMongoApi)
-  val likes = new Likes(reactiveMongoApi)
+  val scores = new Scores(reactiveMongoApi)
 
   def loadDir(dirPath : String) : List[String] = {
     val dir = new File(audioPath + dirPath)
@@ -90,11 +90,20 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi, val actorSy
   }
 
 
-  def like(encryptedVariant : String, up : Boolean) = Action {
+  def score(encryptedVariant : String, score : Int) = Action {
     val decryptedVariant = Crypto.decryptAES(encryptedVariant)
     val variant = decryptedVariant.split(",").toList
 
-    likes.addLike(variant, up)
+    // Check range of score
+    val checkedScore = if (score < 0) {
+      0
+    } else if(score > 4) {
+      4
+    } else {
+      score
+    }
+
+    scores.addScore(variant, checkedScore)
 
     Ok("")
   }

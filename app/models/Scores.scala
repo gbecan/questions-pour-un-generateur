@@ -9,20 +9,20 @@ import play.api.libs.concurrent.Execution.Implicits._
 /**
  * Created by gbecan on 10/22/15.
  */
-class Likes(reactiveMongoApi : ReactiveMongoApi) {
+class Scores(reactiveMongoApi : ReactiveMongoApi) {
 
-  val likesColl = reactiveMongoApi.db.collection[JSONCollection]("likes")
+  val scoresColl = reactiveMongoApi.db.collection[JSONCollection]("scores")
 
-  def addLike(variant : List[String], up : Boolean) {
+  def addScore(variant : List[String], score : Int) {
 
-    val likesColl = reactiveMongoApi.db.collection[JSONCollection]("likes")
     val query = Json.obj("variant" -> variant)
     val update = Json.obj(
       "$inc" -> Json.obj(
-        "counter" -> (if (up) {1} else {-1})
+        "counter" -> score
       )
     )
-    likesColl.update(query, update, upsert = true)
+
+    scoresColl.update(query, update, upsert = true)
 
   }
 }

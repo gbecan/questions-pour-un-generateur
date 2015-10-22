@@ -6,8 +6,7 @@
 GET     /                           controllers.Application.index
 GET     /play/*variant              controllers.Application.play(variant)
 GET     /generate                   controllers.Application.generate
-GET     /up/*variant                controllers.Application.like(variant, up : Boolean = true)
-GET     /down/*variant              controllers.Application.like(variant, up : Boolean = false)
+GET     /score                      controllers.Application.score(variant, score : Int)
 
 # Static resources
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
