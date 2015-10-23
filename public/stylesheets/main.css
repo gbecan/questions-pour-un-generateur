@@ -33,6 +33,10 @@ md-progress-linear .md-container .md-bar {
     text-align: center;
 }
 
+.text-justify {
+    text-align: justify;
+}
+
 .message-container {
     max-width: 800px;
 }
