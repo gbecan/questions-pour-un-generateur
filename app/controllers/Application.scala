@@ -31,9 +31,13 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
 
   def loadDir(dirPath : String) : List[String] = {
     val dir = new File(audioPath + dirPath)
-    val files = dir.listFiles().toList.filter(_.getName.endsWith(".mp3"))
-    val paths = files.map(dirPath + "/" + _.getName)
-    paths
+    if (dir.exists()) {
+      val files = dir.listFiles().toList.filter(_.getName.endsWith(".mp3"))
+      val paths = files.map(dirPath + "/" + _.getName)
+      paths
+    } else {
+      Nil
+    }
   }
 
   val intro = RandomPattern(loadDir("intro"): _*)
