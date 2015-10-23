@@ -9,6 +9,7 @@ Chaque séquence est typée pour pouvoir enchaîner une question puis une répon
 Les différents types sont les suivants :
 - Intro : l'introduction de l'émission
 - Question : une question suivie du bruit du buzzer (le buzzer est intégré à la question car en général les deux se chevauchent)
+- Prénom : le prénom d'un candidat
 - Réponse : une réponse
 - Buzzer : un bruit de buzzer seul
 - Oui : Julien confirme la réponse (oh oui oui oui)
