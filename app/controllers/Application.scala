@@ -51,7 +51,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
       silence,
       question,
       silence,
-      Repeat(Sequence(buzzer, answer, no), 0, 2),
+      Repeat(Sequence(answer, no, buzzer), 0, 2),
       answer,
       yes
     ), 3, 3)
@@ -131,7 +131,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
       score
     }
 
-    scores.addScore(variant, checkedScore)
+    scores.addScore(variant, checkedScore - 2)
 
     Ok("")
   }
