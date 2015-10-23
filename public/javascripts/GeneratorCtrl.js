@@ -43,6 +43,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
 
     $scope.setScore = function(score) {
         $scope.scoreSet = true;
+        $scope.overScore = score;
         $http.get("/score?variant=" + encodeURIComponent($scope.variant) + "&score=" + score)
     };
 
