@@ -37,6 +37,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
     }
   }
 
+  val silence = RandomPattern(loadDir("silence"): _*)
   val intro = RandomPattern(loadDir("intro"): _*)
   val question = RandomPattern(loadDir("question"): _*)
   val buzzer = RandomPattern(loadDir("buzzer"): _*)
@@ -47,12 +48,13 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   val pattern = Sequence(
     intro,
     Repeat(Sequence(
+      silence,
       question,
-      buzzer,
-      Repeat(Sequence(answer, no), 0, 2),
+      silence,
+      Repeat(Sequence(buzzer, answer, no), 0, 2),
       answer,
       yes
-    ), 1, 3)
+    ), 3, 3)
   )
 
   val top = 5

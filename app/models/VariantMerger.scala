@@ -22,7 +22,7 @@ class VariantMerger {
 
     // Execute ffmpeg
     val cmd = "ffmpeg -y -f concat -i " + listFile.getAbsolutePath + " -c copy " + outputFile.getAbsolutePath
-    val result = cmd ! ProcessLogger(_ => {}, _ => {})
+    val result = cmd ! ProcessLogger(_ => (), _ => ())
 
     // Clean input file
     listFile.delete()
