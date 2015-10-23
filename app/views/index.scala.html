@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div flex-gt-sm="50" layout="column" layout-align="center center" layout-padding>
+            <div flex-gt-sm="30" layout="column" layout-align="start center" layout-padding>
                 <h3 class="md-headline">Aimez vous l'épisode?</h3>
                 <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
                     <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
@@ -75,23 +75,25 @@
                 </div>
 
             </div>
+
+            <div flex-gt-sm="20" layout="column" layout-align="start center" layout-padding>
+                <h3 class="md-headline text-center" >Top @topVariants.size</h3>
+                <table>
+                    <tr>
+                        <th>Rang</th>
+                        <th>Score</th>
+                    </tr>
+                    @for((topVariant, index) <- topVariants.zipWithIndex) {
+                        <tr>
+                            <td><a href="http://genquestions.variability.io/play/@topVariant._1">@(index + 1)</a></td>
+                            <td>@topVariant._2</td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </div>
 
-        <div flex>
-            <h3 class="md-headline text-center" >Top @topVariants.size</h3>
-            <table>
-                <tr>
-                    <th>Rang</th>
-                    <th>Score</th>
-                </tr>
-                @for((topVariant, index) <- topVariants.zipWithIndex) {
-                    <tr>
-                        <td><a href="http://genquestions.variability.io/play/@topVariant._1">@(index + 1)</a></td>
-                        <td>@topVariant._2</td>
-                    </tr>
-                }
-            </table>
-        </div>
+
 
         <div flex layout-gt-sm="row">
             @*<div flex>*@
