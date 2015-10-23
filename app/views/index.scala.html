@@ -1,4 +1,4 @@
-@(variant : Option[String], counter : Int, topVariants : List[String])
+@(variant : Option[String], counter : Int, topVariants : List[(String, Int)])
 
 @header = {
 
@@ -79,13 +79,18 @@
 
         <div flex>
             <h3 class="md-headline text-center" >Top @topVariants.size</h3>
-            @for(topVariant <- topVariants) {
-                <div>
-                    <audio controls>
-                        <source src="/audio/@topVariant" type="audio/mpeg">
-                    </audio>
-                </div>
-            }
+            <table>
+                <tr>
+                    <th>Rang</th>
+                    <th>Score</th>
+                </tr>
+                @for((topVariant, index) <- topVariants.zipWithIndex) {
+                    <tr>
+                        <td><a href="http://genquestions.variability.io/play/@topVariant._1">@(index + 1)</a></td>
+                        <td>@topVariant._2</td>
+                    </tr>
+                }
+            </table>
         </div>
 
         <div flex layout-gt-sm="row">

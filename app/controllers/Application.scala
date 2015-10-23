@@ -1,17 +1,14 @@
 package controllers
 
 import java.io.File
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 
-import akka.actor.ActorSystem
 import models._
 import play.api.Logger
 import play.api.libs.Crypto
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json.Json
 import play.api.mvc._
-import play.modules.reactivemongo.json._
-import play.modules.reactivemongo.json.collection.JSONCollection
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 
 import scala.concurrent.Future
@@ -73,7 +70,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
     val futureTopVariants = scores.topVariants(top)
     val futureCounter = stats.getCounter()
     for (topVariants <- futureTopVariants; counter <- futureCounter) yield {
-      val encryptedVariants = topVariants.map(v => encryptVariant(v))
+      val encryptedVariants = topVariants.map(v => (encryptVariant(v._1), v._2))
       Ok(views.html.index(None, counter, encryptedVariants))
     }
   }
@@ -81,7 +78,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
     val futureTopVariants = scores.topVariants(top)
     val futureCounter = stats.getCounter()
     for (topVariants <- futureTopVariants; counter <- futureCounter) yield {
-      val encryptedVariants = topVariants.map(v => encryptVariant(v))
+      val encryptedVariants = topVariants.map(v => (encryptVariant(v._1), v._2))
       Ok(views.html.index(Some(variant), counter, encryptedVariants))
     }
   }

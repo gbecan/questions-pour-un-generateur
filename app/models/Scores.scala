@@ -28,7 +28,7 @@ class Scores(reactiveMongoApi : ReactiveMongoApi) {
 
   }
 
-  def topVariants(limit : Int) : Future[List[List[String]]] = {
+  def topVariants(limit : Int) : Future[List[(List[String], Int)]] = {
     val topJson = scoresColl
     .find(Json.obj())
     .sort(Json.obj("counter" -> -1))
@@ -38,8 +38,9 @@ class Scores(reactiveMongoApi : ReactiveMongoApi) {
     // Convert result to list of variants
     topJson.map {futureTop =>
       futureTop.map { top =>
-        val variant = top.as[JsObject].value("variant").as[JsArray].value
-        variant.toList.map(_.as[JsString].value)
+        val score = top.as[JsObject].value("counter").as[JsNumber].value.toInt
+        val variant = top.as[JsObject].value("variant").as[JsArray].value.toList.map(_.as[JsString].value)
+        (variant, score)
       }
     }
 
