@@ -8,7 +8,7 @@ RUN git clone https://github.com/gbecan/questions-pour-un-generateur.git \
 && cd .. \
 && rm -r questions-pour-un-generateur
 
-WORKDIR /var/www/stage
+WORKDIR /var/www/
 
 ENTRYPOINT ["./bin/questions"]
 
