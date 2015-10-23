@@ -1,4 +1,4 @@
-@(variant : Option[String], counter : Int)
+@(variant : Option[String], counter : Int, topVariants : List[String])
 
 @header = {
 
@@ -19,8 +19,8 @@
 @main(header, footer) {
 
     <div layout="column" layout-align="center center" ng-controller="GeneratorCtrl">
-        <div flex class="message-container">
-            <h1 class="md-display-2 text-center">Questions pour un Générateur</h1>
+        <div flex class="message-container text-center">
+            <h1 class="md-display-2">Questions pour un Générateur</h1>
             <p>
                 Ce site web est un générateur d'épisodes de <strong>Questions pour un champion</strong>.
                 Il est inspiré du travail de Ronny <i class="fa fa-heart"></i> (disponible <a href="https://soundcloud.com/ronny-465200747/sets/questions-pour-un-champion">ici</a>).
@@ -28,16 +28,20 @@
                 Ainsi, vous profitez d'un épisode unique à chaque visite.
             </p>
 
-            <p class="text-center">
+            <md-button class="md-raised md-primary" ng-click="generate()">Générer un nouvel épisode</md-button>
+
+            <p>
                 Oh oui oui oui ! Déjà <strong>{{counter}}</strong> épisodes générés !
             </p>
+
+
         </div>
 
 
         <div flex layout-gt-sm="row" >
-            <div layout="column" layout-align="start center" layout-padding>
+            <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
                 <h3 class="md-headline">Votre épisode</h3>
-                <md-button class="md-raised md-primary" ng-click="generate()">Générer un nouvel épisode</md-button>
+                <p>Pour découvrir votre épisode, appuyez sur le bouton "Générer un nouvel épisode" ci-dessus.</p>
                 <div ng-show="variant" layout="column" layout-align="center center">
                     <div>
                         <audio id="player" controls>
@@ -52,7 +56,7 @@
                 </div>
             </div>
 
-            <div layout="column" layout-align="center center" layout-padding>
+            <div flex-gt-sm="50" layout="column" layout-align="center center" layout-padding>
                 <h3 class="md-headline">Aimez vous l'épisode?</h3>
                 <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
                     <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
@@ -69,6 +73,17 @@
                 </div>
 
             </div>
+        </div>
+
+        <div flex>
+            <h3 class="md-headline text-center" >Top @topVariants.size</h3>
+            @for(topVariant <- topVariants) {
+                <div>
+                    <audio controls>
+                        <source src="/audio/@topVariant" type="audio/mpeg">
+                    </audio>
+                </div>
+            }
         </div>
 
         <div flex layout-gt-sm="row">

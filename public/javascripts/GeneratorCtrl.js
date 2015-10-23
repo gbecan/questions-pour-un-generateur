@@ -23,9 +23,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.playVariant = function(newVariant) {
         $scope.variant = newVariant;
         $scope.tweetUrl = encodeURIComponent("http://genquestions.variability.io/play/" + $scope.variant);
-        $scope.updownSet = false;
-        $scope.isUp = false;
-        $scope.isDown = false;
+        $scope.scoreSet = false;
 
         playerSource.src = "/audio/" + $scope.variant;
         player.load();

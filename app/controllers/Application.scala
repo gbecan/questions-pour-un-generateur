@@ -58,21 +58,37 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
     ), 1, 3)
   )
 
-  def index() = Action.async {
-    stats.getCounter().map { counter =>
-      Ok(views.html.index(None, counter))
-    }
+  val top = 5
+
+  def encryptVariant(variant : List[String]) : String = {
+    Crypto.encryptAES(variant.mkString(","))
   }
 
+  def decryptVariant(encryptedVariant : String) : List[String] = {
+    val decryptedVariant = Crypto.decryptAES(encryptedVariant)
+    decryptedVariant.split(",").toList
+  }
+
+  def index() = Action.async {
+    val futureTopVariants = scores.topVariants(top)
+    val futureCounter = stats.getCounter()
+    for (topVariants <- futureTopVariants; counter <- futureCounter) yield {
+      val encryptedVariants = topVariants.map(v => encryptVariant(v))
+      Ok(views.html.index(None, counter, encryptedVariants))
+    }
+  }
   def play(variant : String) = Action.async {
-    stats.getCounter().map { counter =>
-      Ok(views.html.index(Some(variant), counter))
+    val futureTopVariants = scores.topVariants(top)
+    val futureCounter = stats.getCounter()
+    for (topVariants <- futureTopVariants; counter <- futureCounter) yield {
+      val encryptedVariants = topVariants.map(v => encryptVariant(v))
+      Ok(views.html.index(Some(variant), counter, encryptedVariants))
     }
   }
 
   def generate = Action.async {
     val variant = pattern.select()
-    val encryptedVariant = Crypto.encryptAES(variant.mkString(","))
+    val encryptedVariant = encryptVariant(variant)
     Logger.info(variant.mkString(", "))
 
     stats.increaseCounter().flatMap { _ =>
@@ -88,8 +104,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   }
 
   def getAudioFile(encryptedVariant : String) = Action.async {
-    val decryptedVariant = Crypto.decryptAES(encryptedVariant)
-    val variant = decryptedVariant.split(",").toList
+    val variant = decryptVariant(encryptedVariant)
 
     val futureFile = Future {
       merger.merge(variant.map(elem => audioPath + elem))
@@ -106,8 +121,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
 
 
   def score(encryptedVariant : String, score : Int) = Action {
-    val decryptedVariant = Crypto.decryptAES(encryptedVariant)
-    val variant = decryptedVariant.split(",").toList
+    val variant = decryptVariant(encryptedVariant)
 
     // Check range of score
     val checkedScore = if (score < 0) {
