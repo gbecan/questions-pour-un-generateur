@@ -137,5 +137,13 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   }
 
 
+  def bonusTPMP() = Action {
+    Ok.sendFile(new File(audioPath + "/answer/cancun.mp3"))
+  }
+
+
+  def bonusMer() = Action {
+    Ok.sendFile(new File(audioPath + "/answer/lamernoir.mp3"))
+  }
 }
 

@@ -47,6 +47,18 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         $http.get("/score?variant=" + encodeURIComponent($scope.variant) + "&score=" + score)
     };
 
+    // Bonus
+
+    $scope.tpmp = function() {
+        var bonusPlayer = document.getElementById("playerTPMP");
+        bonusPlayer.play();
+    };
+
+    $scope.merNoire = function() {
+        var bonusPlayer = document.getElementById("playerMer");
+        bonusPlayer.play();
+    };
+
 
     // Init
 
