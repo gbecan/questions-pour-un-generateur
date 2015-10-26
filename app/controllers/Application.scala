@@ -37,24 +37,47 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
     }
   }
 
+//  val silence = RandomPattern(loadDir("silence"): _*)
+//  val intro = RandomPattern(loadDir("intro"): _*)
+//  val question = RandomPattern(loadDir("question"): _*)
+//  val buzzer = RandomPattern(loadDir("buzzer"): _*)
+//  val answer = RandomPattern(loadDir("answer"): _*)
+//  val yes = RandomPattern(loadDir("yes"): _*)
+//  val no = RandomPattern(loadDir("no"): _*)
+//  val name = RandomPattern(loadDir("name"): _*)
+//
+//  val pattern = Sequence(
+//    intro,
+//    Repeat(Sequence(
+//      silence,
+//      question,
+//      silence,
+//      name,
+//      Repeat(Sequence(answer, no, buzzer), 0, 2),
+//      answer,
+//      yes
+//    ), 3, 3)
+//  )
+
   val silence = RandomPattern(loadDir("silence"): _*)
   val intro = RandomPattern(loadDir("intro"): _*)
-  val question = RandomPattern(loadDir("question"): _*)
+  val question = UniqueRandomPattern(loadDir("questions"): _*)
+  val answer = UniqueRandomPattern(loadDir("réponses"): _*)
+  val yes = RandomPattern(loadDir("ok"): _*)
+  val no = RandomPattern(loadDir("non"): _*)
+  val name = RandomPattern(loadDir("prénoms"): _*)
   val buzzer = RandomPattern(loadDir("buzzer"): _*)
-  val answer = RandomPattern(loadDir("answer"): _*)
-  val yes = RandomPattern(loadDir("yes"): _*)
-  val no = RandomPattern(loadDir("no"): _*)
-  val name = RandomPattern(loadDir("name"): _*)
 
   val pattern = Sequence(
     intro,
     Repeat(Sequence(
       silence,
       question,
-      silence,
       name,
-      Repeat(Sequence(answer, no, buzzer), 0, 2),
+      silence,
+      Repeat(Sequence(answer, no, silence, buzzer), 0, 2),
       answer,
+      silence,
       yes
     ), 3, 3)
   )
@@ -140,12 +163,12 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
 
 
   def bonusTPMP() = Action {
-    Ok.sendFile(new File(audioPath + "/answer/cancun.mp3"))
+    Ok.sendFile(new File(audioPath + "/bonus/cancun.mp3"))
   }
 
 
   def bonusMer() = Action {
-    Ok.sendFile(new File(audioPath + "/answer/lamernoir.mp3"))
+    Ok.sendFile(new File(audioPath + "/bonus/lamernoir.mp3"))
   }
 }
 
