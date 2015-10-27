@@ -85,8 +85,7 @@
                     </tr>
                     @for((topVariant, index) <- topVariants.zipWithIndex) {
                         <tr>
-                            @*<td><a href="http://genquestions.variability.io/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a></td>*@
-                            <td><a href="http://localhost:9000/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a></td>
+                            <td><a href="http://genquestions.variability.io/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a></td>
                             <td>@topVariant._2</td>
                         </tr>
                     }
