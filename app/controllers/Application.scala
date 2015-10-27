@@ -75,7 +75,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
       question,
       name,
       silence,
-      Repeat(Sequence(answer, no, silence, buzzer), 0, 2),
+      Repeat(Sequence(answer, no, silence, buzzer, name), 0, 2),
       answer,
       silence,
       yes
