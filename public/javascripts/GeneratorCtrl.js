@@ -22,10 +22,10 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     // Audio
     $scope.playVariant = function(newVariant) {
         $scope.variant = newVariant;
-        $scope.tweetUrl = encodeURIComponent("http://genquestions.variability.io/play/" + $scope.variant);
+        $scope.tweetUrl = "http://genquestions.variability.io/play?variant=" + encodeURIComponent(encodeURIComponent($scope.variant));
         $scope.scoreSet = false;
 
-        playerSource.src = "/audio/" + $scope.variant;
+        playerSource.src = "/audio?variant=" + encodeURIComponent($scope.variant);
         player.load();
         player.play();
     };

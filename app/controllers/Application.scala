@@ -60,6 +60,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
 //  )
 
   val silence = RandomPattern(loadDir("silence"): _*)
+
   val intro = RandomPattern(loadDir("intro"): _*)
   val question = UniqueRandomPattern(loadDir("questions"): _*)
   val answer = UniqueRandomPattern(loadDir("réponses"): _*)
