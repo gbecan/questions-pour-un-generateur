@@ -9,6 +9,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
 
     // Generation
     $scope.generate = function() {
+        $scope.overScore = -1;
         $http.get("/generate")
             .then(function(response) {
                 $scope.counter = response.data.counter;
@@ -34,8 +35,6 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.scoreRange = function() {
         return [4, 3, 2, 1, 0];
     };
-
-    $scope.overScore = -1;
 
     $scope.setOverScore = function(score) {
         $scope.overScore = score;

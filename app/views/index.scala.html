@@ -38,7 +38,7 @@
 
             </div>
 
-            <div flex ng-show="variant" layout="column" layout-align="start center" layout-fill>
+            <div flex ng-show="variant" layout="column" layout-align="start center" layout-padding layout-fill>
                 <div flex>
                     <audio id="player" controls>
                         <source src="" type="audio/mpeg">
@@ -67,10 +67,12 @@
                             </md-button>
                             <i class="fa fa-caret-right fa-3x score-caret" ng-show="overScore == i"></i>
                         </div>
+                        <p ng-show="scoreSet">Merci d'avoir voté.</p>
                     </div>
 
                     <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
                         <h3 class="md-headline text-center" >Top @topVariants.size</h3>
+                        D'après vos votes, les meilleurs épisodes sont les suivants :
                         <table class="text-center">
                             <tr>
                                 <th>Rang</th>
