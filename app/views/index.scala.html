@@ -24,7 +24,9 @@
             <h1 class="md-display-2 text-center">Questions pour <span class="generatedTitle">@title</span></h1>
 
             <div class="text-center">
-                <md-button class="md-raised md-primary" ng-click="generate()">Générer un nouvel épisode</md-button>
+                <md-button id="generate-button" class="md-raised md-primary" ng-click="generate()">
+                    <h2>Générer un <br /> nouvel épisode</h2>
+                </md-button>
             </div>
 
             <p class="text-center">
@@ -65,15 +67,19 @@
 
                     <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
                         <h3 class="md-headline text-center" >Top @topVariants.size</h3>
-                        <table>
+                        <table class="text-center">
                             <tr>
                                 <th>Rang</th>
                                 <th>Score</th>
                             </tr>
                             @for((topVariant, index) <- topVariants.zipWithIndex) {
                                 <tr>
-                                    <td><a href="http://genquestions.variability.io/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a></td>
-                                    <td>@topVariant._2</td>
+                                    <td>
+                                        <a class="md-raised" href="http://genquestions.variability.io/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a>
+                                    </td>
+                                    <td>
+                                        @topVariant._2
+                                    </td>
                                 </tr>
                             }
                         </table>

@@ -30,15 +30,6 @@ body {
 }
 
 
-
-md-progress-linear .md-container {
-    height: 10px;
-}
-
-md-progress-linear .md-container .md-bar {
-    height: 10px;
-}
-
 #score-title {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -76,4 +67,8 @@ md-progress-linear .md-container .md-bar {
 
 .generatedTitle {
     color: orange;
+}
+
+.generate-button {
+
 }

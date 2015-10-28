@@ -12,6 +12,7 @@ import play.api.mvc._
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 
 import scala.concurrent.Future
+import scala.io.Source
 import scala.util.Random
 
 @Singleton
@@ -84,16 +85,7 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
     ), 3, 3)
   )
 
-  val titles = List(
-    "une encyclopédie",
-    "des broutilles",
-    "un saucisson sec",
-    "une chaise à bascule",
-    "des chiffres et des lettres",
-    "un winner",
-    "des pantoufles",
-    "un dictionnaire"
-  )
+  val titles = Source.fromFile("/var/www/qpug/title.txt").getLines().toList
 
   val top = 5
 
