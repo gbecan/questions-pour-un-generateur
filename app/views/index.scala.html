@@ -19,33 +19,37 @@
 
 @main(header, footer) {
 
-    <div layout="column" layout-align="center center" ng-controller="GeneratorCtrl">
-        <div flex>
-            <h1 class="md-display-2 text-center">Questions pour <span class="generatedTitle">@title</span></h1>
+    <div ng-controller="GeneratorCtrl">
+        <div layout="column" layout-align="center center">
 
-            <div class="text-center">
-                <md-button class="md-raised md-primary" ng-click="generate()">
-                    <h2>Générer un <br /> nouvel épisode</h2>
-                </md-button>
+            <div flex>
+                <h1 class="md-display-2 text-center">Questions pour <span class="generatedTitle">@title</span></h1>
+
+                <div class="text-center">
+                    <md-button class="md-raised md-primary" ng-click="generate()">
+                        <h2>Générer un <br /> nouvel épisode</h2>
+                    </md-button>
+                </div>
+
+                <p class="text-center">
+                    Oh oui oui oui ! Déjà <strong>{{counter}}</strong> épisodes générés !
+                </p>
+
             </div>
 
-            <p class="text-center">
-                Oh oui oui oui ! Déjà <strong>{{counter}}</strong> épisodes générés !
-            </p>
-
-            <div ng-show="variant" layout="column" layout-align="center center">
-                <div>
+            <div flex ng-show="variant" layout="column" layout-align="start center" layout-fill>
+                <div flex>
                     <audio id="player" controls>
                         <source src="" type="audio/mpeg">
                     </audio>
                 </div>
-                <div>
+                <div flex>
                     <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' target="_blank" aria-label="partager sur twitter">
                         <i class="fa fa-twitter"></i> Partager sur Twitter
                     </md-button>
                 </div>
 
-                <div flex layout-gt-sm="row" >
+                <div flex layout-gt-sm="row" layout-fill>
 
                     <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
                         <h3 class="md-headline text-center">Votez pour votre épisode préféré</h3>
@@ -78,7 +82,7 @@
                                         <a class="md-raised" href="http://genquestions.variability.io/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a>
                                     </td>
                                     <td>
-                                        @topVariant._2
+                                    @topVariant._2
                                     </td>
                                 </tr>
                             }
@@ -88,10 +92,7 @@
 
             </div>
 
-
-
         </div>
-
     </div>
 
 
