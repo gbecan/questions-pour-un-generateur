@@ -25,15 +25,16 @@
             <div flex>
                 <h1 class="md-display-2 text-center">Questions pour <span class="generatedTitle">@title</span></h1>
 
+                <p class="text-center">
+                    Déjà <strong>{{counter}}</strong> épisodes générés ! Oh oui oui oui ! Ça c'est bon !
+                </p>
+
                 <div class="text-center">
                     <md-button class="md-raised md-primary" ng-click="generate()">
-                        <h2>Générer un <br /> nouvel épisode</h2>
+                        <h2 ng-hide="variant">Générer un <br /> épisode</h2>
+                        <h2 ng-show="variant">Vous en voulez <br /> encore?</h2>
                     </md-button>
                 </div>
-
-                <p class="text-center">
-                    Oh oui oui oui ! Déjà <strong>{{counter}}</strong> épisodes générés !
-                </p>
 
             </div>
 
@@ -52,7 +53,7 @@
                 <div flex layout-gt-sm="row" layout-fill>
 
                     <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
-                        <h3 class="md-headline text-center">Votez pour votre épisode préféré</h3>
+                        <h3 class="md-headline text-center">Votez pour cet épisode</h3>
                         <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
                             <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
                             <md-button
@@ -66,7 +67,6 @@
                             </md-button>
                             <i class="fa fa-caret-right fa-3x score-caret" ng-show="overScore == i"></i>
                         </div>
-
                     </div>
 
                     <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
