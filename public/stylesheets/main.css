@@ -1,21 +1,9 @@
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
-    display: flex;
     min-height: 100vh;
-    flex-direction: column;
     background-color: white;
 }
 
-#main-content {
-    flex: 1;
-}
-
 .footer {
-    width: 100%;
     padding: 0;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -29,6 +17,9 @@ body {
     color: white;
 }
 
+#main-content {
+    margin-bottom: 50px;
+}
 
 #score-title {
     margin-top: 5px;
@@ -67,8 +58,4 @@ body {
 
 .generatedTitle {
     color: orange;
-}
-
-.generate-button {
-
 }
