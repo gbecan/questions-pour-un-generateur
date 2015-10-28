@@ -1,3 +1,36 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: white;
+}
+
+#main-content {
+    flex: 1;
+}
+
+.footer {
+    width: 100%;
+    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: rgb(63, 81, 181);
+    color: white;
+    text-align: center;
+}
+
+.footer a {
+    color: white;
+}
+
+
+
 md-progress-linear .md-container {
     height: 10px;
 }
@@ -39,4 +72,8 @@ md-progress-linear .md-container .md-bar {
 
 .message-container {
     max-width: 800px;
+}
+
+.generatedTitle {
+    color: orange;
 }

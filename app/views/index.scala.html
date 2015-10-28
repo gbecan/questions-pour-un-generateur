@@ -1,10 +1,11 @@
-@(variant : Option[String], counter : Int, topVariants : List[(String, Int)])
+@(title: String, variant : Option[String], counter : Int, topVariants : List[(String, Int)])
 
 @header = {
 
 }
 
 @footer = {
+
     <script>
         var counter = @counter;
         @if(variant.isDefined) {
@@ -19,14 +20,8 @@
 @main(header, footer) {
 
     <div layout="column" layout-align="center center" ng-controller="GeneratorCtrl">
-        <div flex class="message-container">
-            <h1 class="md-display-2 text-center">Questions pour un Générateur</h1>
-            <p class="text-justify">
-                Ce site web est un générateur d'épisodes de <strong>Questions pour un champion</strong>.
-                Il est inspiré du travail de Ronny <i class="fa fa-heart"></i> (disponible <a href="https://soundcloud.com/ronny-465200747/sets/questions-pour-un-champion">ici</a>).
-                Au lieu de réaliser le mixage des questions et des réponses manuellement, nous générons aléatoirement un épisode.
-                Ainsi, vous profitez d'un épisode unique à chaque visite.
-            </p>
+        <div flex>
+            <h1 class="md-display-2 text-center">Questions pour <span class="generatedTitle">@title</span></h1>
 
             <div class="text-center">
                 <md-button class="md-raised md-primary" ng-click="generate()">Générer un nouvel épisode</md-button>
@@ -36,89 +31,59 @@
                 Oh oui oui oui ! Déjà <strong>{{counter}}</strong> épisodes générés !
             </p>
 
-
-        </div>
-
-
-        <div flex layout-gt-sm="row" >
-            <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
-                <h3 class="md-headline">Votre épisode</h3>
-                <p>Pour découvrir votre épisode, appuyez sur le bouton "Générer un nouvel épisode" ci-dessus.</p>
-                <div ng-show="variant" layout="column" layout-align="center center">
-                    <div>
-                        <audio id="player" controls>
-                            <source src="" type="audio/mpeg">
-                        </audio>
-                    </div>
-                    <div>
-                        <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' target="_blank" aria-label="partager sur twitter">
-                            <i class="fa fa-twitter"></i> Partager sur Twitter
-                        </md-button>
-                    </div>
+            <div ng-show="variant" layout="column" layout-align="center center">
+                <div>
+                    <audio id="player" controls>
+                        <source src="" type="audio/mpeg">
+                    </audio>
                 </div>
-            </div>
-
-            <div flex-gt-sm="30" layout="column" layout-align="start center" layout-padding>
-                <h3 class="md-headline">Aimez vous l'épisode?</h3>
-                <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
-                    <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
-                    <md-button
-                    class="md-raised score"
-                    ng-mouseover="setOverScore(i)"
-                    ng-class="{'score-normal' : i > overScore, 'score-highlight' : i <= overScore}"
-                    aria-label="Oh oui oui oui ! (j'aime)"
-                    ng-disabled="scoreSet || !variant"
-                    ng-click="setScore(i)">
-                        {{i}}
+                <div>
+                    <md-button ng-href='https://twitter.com/intent/tweet?text=%23QPUG&url={{tweetUrl}}' target="_blank" aria-label="partager sur twitter">
+                        <i class="fa fa-twitter"></i> Partager sur Twitter
                     </md-button>
-                    <i class="fa fa-caret-right fa-3x score-caret" ng-show="overScore == i"></i>
+                </div>
+
+                <div flex layout-gt-sm="row" >
+
+                    <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
+                        <h3 class="md-headline text-center">Votez pour votre épisode préféré</h3>
+                        <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
+                            <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
+                            <md-button
+                            class="md-raised score"
+                            ng-mouseover="setOverScore(i)"
+                            ng-class="{'score-normal' : i > overScore, 'score-highlight' : i <= overScore}"
+                            aria-label="Oh oui oui oui ! (j'aime)"
+                            ng-disabled="scoreSet || !variant"
+                            ng-click="setScore(i)">
+                                {{i}}
+                            </md-button>
+                            <i class="fa fa-caret-right fa-3x score-caret" ng-show="overScore == i"></i>
+                        </div>
+
+                    </div>
+
+                    <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
+                        <h3 class="md-headline text-center" >Top @topVariants.size</h3>
+                        <table>
+                            <tr>
+                                <th>Rang</th>
+                                <th>Score</th>
+                            </tr>
+                            @for((topVariant, index) <- topVariants.zipWithIndex) {
+                                <tr>
+                                    <td><a href="http://genquestions.variability.io/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a></td>
+                                    <td>@topVariant._2</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
                 </div>
 
             </div>
 
-            <div flex-gt-sm="20" layout="column" layout-align="start center" layout-padding>
-                <h3 class="md-headline text-center" >Top @topVariants.size</h3>
-                <table>
-                    <tr>
-                        <th>Rang</th>
-                        <th>Score</th>
-                    </tr>
-                    @for((topVariant, index) <- topVariants.zipWithIndex) {
-                        <tr>
-                            <td><a href="http://genquestions.variability.io/play?variant=@helper.urlEncode(topVariant._1)">@(index + 1)</a></td>
-                            <td>@topVariant._2</td>
-                        </tr>
-                    }
-                </table>
-            </div>
-        </div>
 
 
-
-        <div flex layout-gt-sm="row">
-            @*<div flex>*@
-                @*<h3>Comment ça marche?</h3>*@
-                @*<p>La génération d'un épisode consiste</p>*@
-            @*</div>*@
-
-            <div flex>
-                <h3 class="md-headline text-center" >Nous contacter</h3>
-                <p>
-                    Pour toute question, vous pouvez nous contacter via <a href="mailto:contact@@variability.io">contact@@variability.io</a>
-                </p>
-            </div>
-
-        </div>
-
-        <div>
-            <md-button class="md-fab md-primary" aria-label="tpmp" ng-click="tpmp()">TPMP</md-button>
-            <audio id="playerTPMP">
-                <source src="bonus/tpmp" type="audio/mpeg">
-            </audio>
-            <md-button class="md-fab md-primary" aria-label="la mer noire" ng-click="merNoire()">Mer</md-button>
-            <audio id="playerMer">
-                <source src="bonus/mer" type="audio/mpeg">
-            </audio>
         </div>
 
     </div>

@@ -18,7 +18,35 @@
     </head>
     <body layout="column">
 
-        @content
+        <div id="main-content">
+            @content
+        </div>
+
+
+        <div class="footer">
+            <footer>
+                <div flex>
+
+                    <p>
+                    Pour toute question, vous pouvez nous contacter via <a href="mailto:contact@@variability.io">contact@@variability.io</a>
+                </p>
+
+                </div>
+
+                <div>
+                    <md-button class="md-fab md-primary" aria-label="tpmp" ng-click="tpmp()">TPMP</md-button>
+                    <audio id="playerTPMP">
+                        <source src="bonus/tpmp" type="audio/mpeg">
+                    </audio>
+                    <md-button class="md-fab md-primary" aria-label="la mer noire" ng-click="merNoire()">Mer</md-button>
+                    <audio id="playerMer">
+                        <source src="bonus/mer" type="audio/mpeg">
+                    </audio>
+                </div>
+            </footer>
+        </div>
+
+
 
 
         <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("angular.min.js"))'></script>

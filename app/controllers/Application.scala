@@ -12,6 +12,7 @@ import play.api.mvc._
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 
 import scala.concurrent.Future
+import scala.util.Random
 
 @Singleton
 class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
@@ -83,6 +84,17 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
     ), 3, 3)
   )
 
+  val titles = List(
+    "une encyclopédie",
+    "des broutilles",
+    "un saucisson sec",
+    "une chaise à bascule",
+    "des chiffres et des lettres",
+    "un winner",
+    "des pantoufles",
+    "un dictionnaire"
+  )
+
   val top = 5
 
   def encryptVariant(variant : List[String]) : String = {
@@ -95,19 +107,21 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
   }
 
   def index() = Action.async {
+    var title = Random.shuffle(titles).head
     val futureTopVariants = scores.topVariants(top)
     val futureCounter = stats.getCounter()
     for (topVariants <- futureTopVariants; counter <- futureCounter) yield {
       val encryptedVariants = topVariants.map(v => (encryptVariant(v._1), v._2))
-      Ok(views.html.index(None, counter, encryptedVariants))
+      Ok(views.html.index(title, None, counter, encryptedVariants))
     }
   }
   def play(variant : String) = Action.async {
+    var title = Random.shuffle(titles).head
     val futureTopVariants = scores.topVariants(top)
     val futureCounter = stats.getCounter()
     for (topVariants <- futureTopVariants; counter <- futureCounter) yield {
       val encryptedVariants = topVariants.map(v => (encryptVariant(v._1), v._2))
-      Ok(views.html.index(Some(variant), counter, encryptedVariants))
+      Ok(views.html.index(title, Some(variant), counter, encryptedVariants))
     }
   }
 
