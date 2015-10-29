@@ -109,6 +109,20 @@
                 </div>
 
                 <div flex>
+                    <h3 class="md-headline text-center">Comment contribuer?</h3>
+                    <p class="text-justify">
+                        Aidez nous à améliorer ce générateur en envoyant vos extraits de Questions pour un champion.
+                        Pour faciliter le traitement de vos contributions nous n'acceptons uniquement les fichiers au format MP3.
+                        Pour éviter tout abus, nous vérifions manuellement chaque fichier. La mise en ligne n'est donc pas immédiate.
+                        Merci pour votre aide.
+                    </p>
+                    <form enctype="multipart/form-data">
+                        <input name="file" type="file" id="fileToUpload">
+                        <md-button ng-click="uploadFile()">Envoyer</md-button>
+                    </form>
+                </div>
+
+                <div flex>
                     <h3 class="md-headline text-center">Questions pour un générateur</h3>
                     <p class="text-justify">
                         Comme des millions de français, nous avons écouté, réécouté, et adoré le travail de Ronny <i class="fa fa-heart"></i> (disponible <a href="https://soundcloud.com/ronny-465200747/sets/questions-pour-un-champion">ici</a>) et les trois "parodies" de questions pour un champion.
@@ -126,18 +140,6 @@
                         <br />
                         Nous avons <em>besoin d'un maximum de données (séquences audio, votes, partage via les réseaux sociaux) pour dénicher la perle parmi les milliards de milliards de milliards ... de milliards de combinaisons et parodies possibles! A vous de générer!</em>
                     </p>
-
-                    <h3 class="md-headline text-center">Comment contribuer?</h3>
-                    <p class="text-justify">
-                        Aidez nous à améliorer ce générateur en envoyant vos extraits de Questions pour un champion.
-                        Pour faciliter le traitement de vos contributions nous n'acceptons uniquement les fichiers au format MP3.
-                        Pour éviter tout abus, nous vérifions manuellement chaque fichier. La mise en ligne n'est donc pas immédiate.
-                        Merci pour votre aide.
-                    </p>
-                    <form enctype="multipart/form-data">
-                        <input name="file" type="file" id="fileToUpload">
-                        <md-button ng-click="uploadFile()">Envoyer</md-button>
-                    </form>
                 </div>
 
             </div>
