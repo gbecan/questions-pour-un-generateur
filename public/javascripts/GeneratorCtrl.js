@@ -6,6 +6,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.variant = "";
     $scope.tweetUrl = "";
     $scope.shareLink = "";
+    $scope.facebookUrl = ""
     $scope.scoreSet = false;
 
     // Generation
@@ -26,6 +27,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         $scope.variant = newVariant;
         $scope.shareLink = "http://genquestions.variability.io/play?variant=" + encodeURIComponent($scope.variant);
         $scope.tweetUrl = "http://genquestions.variability.io/play?variant=" + encodeURIComponent(encodeURIComponent($scope.variant));
+        $scope.facebookUrl = "http://genquestions.variability.io/play?variant=" + encodeURIComponent(encodeURIComponent($scope.variant));
         $scope.scoreSet = false;
 
         playerSource.src = "/audio?variant=" + encodeURIComponent($scope.variant);
