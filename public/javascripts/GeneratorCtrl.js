@@ -6,7 +6,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     $scope.variant = "";
     $scope.tweetUrl = "";
     $scope.shareLink = "";
-    $scope.facebookUrl = ""
+    $scope.facebookUrl = "";
     $scope.scoreSet = false;
 
     // Generation
@@ -48,6 +48,15 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
         $scope.scoreSet = true;
         $scope.overScore = score;
         $http.get("/score?variant=" + encodeURIComponent($scope.variant) + "&score=" + score)
+    };
+
+    // Upload file
+    $scope.uploadFile = function() {
+        var formData = new FormData(document.querySelector("form"));
+        $http.post("/upload", formData, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
     };
 
     // Init

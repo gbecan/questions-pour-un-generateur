@@ -1,6 +1,7 @@
 package controllers
 
 import java.io.File
+import java.util.UUID
 import javax.inject.{Inject, Singleton}
 
 import models._
@@ -23,6 +24,9 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
 
   val path = "/audio/"
   val audioPath = "/var/www/qpug/audio/"
+  val uploadDir = "/var/www/qpug/upload/"
+  (new File(uploadDir).mkdirs())
+
   val merger = new VariantMerger
 
   val stats = new Stats(reactiveMongoApi)
@@ -153,6 +157,16 @@ class Application @Inject() (val reactiveMongoApi: ReactiveMongoApi)
 
   def bonusMer() = Action {
     Ok.sendFile(new File(audioPath + "/bonus/lamernoir.mp3"))
+  }
+
+  def upload() = Action(parse.multipartFormData) { request =>
+    request.body.file("file").map { file =>
+      val filename = file.filename
+      file.ref.moveTo(new File(uploadDir + UUID.randomUUID() + "_" + filename))
+      Ok("File uploaded")
+    }.getOrElse {
+      BadRequest("Error while uploading file")
+    }
   }
 }
 

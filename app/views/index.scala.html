@@ -108,8 +108,18 @@
                     </div>
                 </div>
 
-            </div>
+                <div>
+                    <h3 class="md-headline text-center">Titre</h3>
+                    <p>Explications</p>
 
+                    <p></p>
+                    <form enctype="multipart/form-data">
+                        <input name="file" type="file" ng-model="fileToUpload">
+                        <md-button ng-click="uploadFile()">Envoyer</md-button>
+                    </form>
+                </div>
+
+            </div>
         </div>
     </div>
 
