@@ -1,1 +1,1 @@
-angular.module("JLApp", ["ngMaterial"]);
+angular.module("JLApp", ["ngMaterial", "angular-clipboard"]);

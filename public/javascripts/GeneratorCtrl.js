@@ -5,6 +5,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
 
     $scope.variant = "";
     $scope.tweetUrl = "";
+    $scope.shareLink = "";
     $scope.scoreSet = false;
 
     // Generation
@@ -23,6 +24,7 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     // Audio
     $scope.playVariant = function(newVariant) {
         $scope.variant = newVariant;
+        $scope.shareLink = "http://genquestions.variability.io/play?variant=" + encodeURIComponent($scope.variant);
         $scope.tweetUrl = "http://genquestions.variability.io/play?variant=" + encodeURIComponent(encodeURIComponent($scope.variant));
         $scope.scoreSet = false;
 
@@ -55,5 +57,4 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     if (typeof counter !== "undefined") {
         $scope.counter = counter;
     }
-
 });
