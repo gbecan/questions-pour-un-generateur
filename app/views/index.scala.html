@@ -69,7 +69,7 @@
                 <div flex layout-gt-sm="row" layout-fill>
 
                     <div flex-gt-sm="50" layout="column" layout-align="start center" layout-padding>
-                        <h3 class="md-headline text-center">Votez pour cet épisode</h3>
+                        <h3 class="md-headline text-center">Voter pour cet épisode</h3>
                         <div layout="row" layout-align="center center" ng-repeat="i in scoreRange()" >
                             <i class="fa fa-caret-left fa-3x score-caret" ng-show="overScore == i"></i>
                             <md-button
@@ -108,13 +108,34 @@
                     </div>
                 </div>
 
-                <div>
-                    <h3 class="md-headline text-center">Titre</h3>
-                    <p>Explications</p>
+                <div flex>
+                    <h3 class="md-headline text-center">Questions pour un générateur</h3>
+                    <p class="text-justify">
+                        Comme des millions de français, nous avons écouté, réécouté, et adoré le travail de Ronny <i class="fa fa-heart"></i> (disponible <a href="https://soundcloud.com/ronny-465200747/sets/questions-pour-un-champion">ici</a>) et les trois "parodies" de questions pour un champion.
+                        <br />
+                        Au lieu de réaliser le mixage des questions et des réponses manuellement, nous générons plus ou moins aléatoirement une séquence son. Ainsi, vous profitez d'une parodie unique à chaque visite.
+                        <br />
+                        Ce générateur permet d'écouter une variété incroyable de parodies.
+                        Notre travail de recherche s'intéresse justement aux mécanismes logiciels pour fabriquer des <em>variantes</em>, que ce soient des variantes de programmes, de langages, de vidéos, ou encore de produits manufacturés.
+                        <br />
+                        Ici, nous nous intéressons à la problématique suivante: est-il possible d'obtenir automatiquement des variantes de parodie aussi drôles que celles d'un créateur comme Ronny? Plus précisément: <em>est-ce qu'une communauté d'utilisateurs (vous!) peut, à l'aide d'un générateur automatique et d'un système de votes, faire émerger une ou plusieurs variantes d'une qualité proche des trois créations originales de Ronny?</em>
+                        <br />
+                        Quelques défis sont à relever. Pour programmer le générateur, il faut modéliser efficacement l'ensemble des possibles (les séquences audios), être capable de trouver un bon "motif" et ordre d'assemblage, et enfin composer les séquences audio en un tout commun.
+                        Pour générer une variante, il faut être en mesure de sélectionner des séquences audio en respectant un certain nombre de contraintes et de motifs, tout en prenant compte l'avis d'une communauté d'utilisateurs (vous!).
+                        Pour y parvenir, nous allons utiliser des techniques de modélisation de la variabilité, de programmation, de génie logiciel, et d'apprentissage.
+                        <br />
+                        Nous avons <em>besoin d'un maximum de données (séquences audio, votes, partage via les réseaux sociaux) pour dénicher la perle parmi les milliards de milliards de milliards ... de milliards de combinaisons et parodies possibles! A vous de générer!</em>
+                    </p>
 
-                    <p></p>
+                    <h3 class="md-headline text-center">Comment contribuer?</h3>
+                    <p class="text-justify">
+                        Aidez nous à améliorer ce générateur en envoyant vos extraits de Questions pour un champion.
+                        Pour faciliter le traitement de vos contributions nous n'acceptons uniquement les fichiers au format MP3.
+                        Pour éviter tout abus, nous vérifions manuellement chaque fichier. La mise en ligne n'est donc pas immédiate.
+                        Merci pour votre aide.
+                    </p>
                     <form enctype="multipart/form-data">
-                        <input name="file" type="file" ng-model="fileToUpload">
+                        <input name="file" type="file" id="fileToUpload">
                         <md-button ng-click="uploadFile()">Envoyer</md-button>
                     </form>
                 </div>

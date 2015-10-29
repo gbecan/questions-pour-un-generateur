@@ -1,4 +1,4 @@
-angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
+angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http, $mdDialog) {
 
     var player = document.getElementById("player");
     var playerSource = player.getElementsByTagName("source")[0];
@@ -53,10 +53,41 @@ angular.module("JLApp").controller("GeneratorCtrl", function($scope, $http) {
     // Upload file
     $scope.uploadFile = function() {
         var formData = new FormData(document.querySelector("form"));
-        $http.post("/upload", formData, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
+        var fileName = document.getElementById("fileToUpload").value;
+        if (fileName.endsWith(".mp3")) {
+            $http.post("/upload", formData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(function() {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .clickOutsideToClose(true)
+                        .title('Merci pour votre contribution')
+                        .content('Nous allons vérifier votre extrait et le mettre en ligne dès que possible')
+                        .ariaLabel('merci')
+                        .ok('Ok')
+                );
+            }, function(err) {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .clickOutsideToClose(true)
+                        .title('Oops...')
+                        .content('Un problème est survenu lors du chargement de votre fichier. Nous vous invitons à nous contacter si le problème persiste.')
+                        .ariaLabel('problème')
+                        .ok('Ok')
+                );
+            })
+        } else {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .clickOutsideToClose(true)
+                    .title('Mauvais format de fichier')
+                    .content("Pour faciliter le traitement des contributions, nous n'acceptons uniquement des fichiers au format MP3.")
+                    .ariaLabel('merci')
+                    .ok('Ok')
+            );
+        }
+
     };
 
     // Init
