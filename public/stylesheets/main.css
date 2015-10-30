@@ -64,3 +64,7 @@ h3 {
 #share-link-container {
     padding-bottom: 2px;
 }
+
+.content-container {
+    max-width: 800px;
+}
